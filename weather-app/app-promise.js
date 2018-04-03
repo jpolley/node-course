@@ -1,8 +1,7 @@
 const yargs = require('yargs')
 const axios = require('axios')
 
-var googleApiKey = ''
-var forecastApiKey = ''
+const appConfig = require('./appConfig')
 
 const argv = yargs
   .options({
@@ -18,7 +17,7 @@ const argv = yargs
   .argv
 
 var encodedAddress = encodeURIComponent(argv.address)
-var geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}&key=${googleApiKey}`
+var geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}&key=${appConfig.googleApiKey}`
 
 axios.get(geocodeUrl).then((response) => {
   if (response.data.status === 'ZERO_RESULTS') {
@@ -27,7 +26,7 @@ axios.get(geocodeUrl).then((response) => {
 
   var latitude = response.data.results[0].geometry.location.lat
   var longitude = response.data.results[0].geometry.location.lng
-  var weatherUrl = `https://api.darksky.net/forecast/${forecastApiKey}/${latitude},${longitude}`
+  var weatherUrl = `https://api.darksky.net/forecast/${appConfig.forecastApiKey}/${latitude},${longitude}`
   console.log(response.data.results[0].formatted_address)
   return axios.get(weatherUrl)
 }).then((response) => {

@@ -1,10 +1,10 @@
 const request = require('request')
 
-var forecastApiKey = ''
+const appConfig = require('.././appConfig')
 
 var getWeather = (latitude, longitude, callback) => {
   request({
-    url: `https://api.darksky.net/forecast/${forecastApiKey}/${latitude},${longitude}`,
+    url: `https://api.darksky.net/forecast/${appConfig.forecastApiKey}/${latitude},${longitude}`,
     json: true
   }, (error, response, body) => {
     if (error) {
